@@ -6,13 +6,18 @@ smtpObj = smtplib.SMTP('smtp.gmail.com', 587)
 smtpObj.starttls()
 smtpObj.login('suck.big.pusy@gmail.com','portal.1')
 
+keyboard = telebot.types.ReplyKeyboardRemove(True)
 keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
+
 keyboard.row('Английский', 'История', 'Анатомия')
 
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    bot.send_message(message.chat.id, 'Добро пожаловать в помощника по решению тестов. Для старта напиши "Начать".')
+    bot.send_message(message.chat.id, 'Добро пожаловать в автоматического помощника.'
+                                      ' Здесь можно заказать решение тестов на портале МГМСУ. '
+                                      'На данный момент это доступно только студентам лечебного факультета.'
+                                      ' Для старта напиши "Начать".')
 
 
 @bot.message_handler(content_types=['text'])
@@ -38,11 +43,12 @@ def get_text_messages(message):
     elif message.text == "Анатомия":
         bot.send_message(message.from_user.id, "Напиши название теста")
         bot.send_message(message.from_user.id, "Напиши логин и пароль от портала и желаемую оценку")
+        bot.send_message(message.from_user.id, "После того, как напишешь название, логин, пароль и оценку отправь 150 рублей на эту карту: 123456789   В комментариях укажи свой логин от портала")
 
     else:
-        bot.send_message(message.from_user.id, "Я тебя не понимаю. Напиши /help.")
-    Test_name = message.text
+        bot.send_message(message.from_user.id, "")
 
+    Test_name = str(message.text)
     smtpObj.sendmail("suck.big.pusy@gmail.com","suck.big.pusy@gmail.com", Test_name.encode('utf-8'))
 
 
